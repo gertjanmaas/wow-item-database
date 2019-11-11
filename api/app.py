@@ -7,7 +7,7 @@ db_uri = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
     os.environ.get('DB_USER', 'postgres'),
     os.environ.get('DB_PASS', 'postgres'),
     os.environ.get('DB_HOST', 'localhost'),
-    os.environ.get('DB_PORT', 5432),
+    int(os.environ.get('DB_PORT', 5432)),
     os.environ.get('DB_NAME', 'postgres')
     )
 
