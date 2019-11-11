@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>World of Warcraft Item Database</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-w+8Gqjk9Cuo6XH9HKHG5t5I1VR4YBNdPt/29vwgfZR485eoEJZ8rJRbm3TR32P6k" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <style>
+        #item-list ul {
+            list-style-type: none;
+        }
+
+        .item {
+            background: black;
+            margin: 3px;
+            width: auto;
+            font-size: 1.5em;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .item img {
+            margin-right: 10px;
+        }
+
+        .legendary {
+            color: #ff8000;
+        }
+
+        .epic {
+            color: #a335ee;
+        }
+
+        .rare {
+            color: #0070dd;
+        }
+
+        .uncommon {
+            color: #1eff00;
+        }
+
+        .common {
+            color: #ffffff;
+        }
+
+        .junk {
+            color: #9d9d9d;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <span class="navbar-brand" style="font-size: 2em;"><img
+                        src="https://wow.zamimg.com/images/logos/expansions/classic-170x73.png" />
+                    Item Database</span>
+                <span class="navbar-nav">Order by:<select id="order-by" style="width: 200px; display: inline-block">
+                        <option>Alphabetical</option>
+                        <option>Quality</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="item-list">
+        No items found...
+    </div>
+
+    <script>
+        function generateItem(item) {
+            return `<li class="item ${item.quality.toLowerCase()}"><img src="${item.icon}" /><b>${item.name}</b></li>`
+        }
+
+        async function listItems(orderBy = "alphabetical") {
+            const items = await fetch(`/items?order_by=${orderBy}`).then(r => r.json());
+            if (items.length > 0) {
+                let html = "<ul>"
+                for (i of items) {
+                    html += generateItem(i)
+                }
+                html += "</ul>"
+                $('#item-list').html(html);
+            }
+        }
+
+        $('document').ready(async () => {
+            $('#order-by').change(e => {
+                const order = e.target.selectedOptions[0].text.toLowerCase()
+                listItems(order);
+            });
+            listItems();
+        });
+    </script>
+</body>
+
+</html>
