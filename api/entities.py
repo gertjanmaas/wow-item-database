@@ -27,5 +27,5 @@ class Item(db.Model):
             'id': self.id,
             'name': self.name,
             'quality': self.quality,
-            'icon': f"https://wow.zamimg.com/images/wow/icons/large/{self.icon}.jpg"
+            'icon': f"/static/icons/{self.icon}.jpg"
         }

@@ -1,5 +1,5 @@
 import json
-from flask import jsonify, request
+from flask import jsonify, request, redirect
 
 from app import app, db
 
@@ -9,6 +9,10 @@ from entities import Item, ItemQuality
 def index():
     return open("frontend/index.html").read()
 
+@app.route('/favicon.ico')
+def favicon():
+    return redirect("/static/favicon.ico", code=302)
+
 @app.route('/items', methods=['GET'])
 def list_items():
     order_by = request.args.get('order_by', "quality")
@@ -16,7 +20,6 @@ def list_items():
     if order_by == "alphabetical":
         order = Item.name.asc()
 
-    print(Item.query.order_by(order))
     return jsonify([i.to_dict() for i in Item.query.order_by(order).all()])
 
 def populate(db):
@@ -43,4 +46,4 @@ def populate(db):
 if __name__ == "__main__":
     db.create_all()
     populate(db)
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
