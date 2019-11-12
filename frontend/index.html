@@ -11,6 +11,9 @@
         integrity="sha384-w+8Gqjk9Cuo6XH9HKHG5t5I1VR4YBNdPt/29vwgfZR485eoEJZ8rJRbm3TR32P6k" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script>var whTooltips = { colorLinks: true, iconizeLinks: false, renameLinks: false };</script>
+    <script src="https://wow.zamimg.com/widgets/power.js"></script>
     <style>
         #item-list ul {
             list-style-type: none;
@@ -29,28 +32,38 @@
             margin-right: 10px;
         }
 
-        .legendary {
+        .legendary,
+        .legendary:hover {
             color: #ff8000;
         }
 
-        .epic {
+        .epic,
+        .epic:hover {
             color: #a335ee;
         }
 
-        .rare {
+        .rare,
+        .rare:hover {
             color: #0070dd;
         }
 
-        .uncommon {
+        .uncommon,
+        .uncommon:hover {
             color: #1eff00;
         }
 
-        .common {
+        .common,
+        .common:hover {
             color: #ffffff;
         }
 
-        .junk {
+        .junk,
+        .junk:hover {
             color: #9d9d9d;
+        }
+
+        a:hover {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -77,7 +90,10 @@
 
     <script>
         function generateItem(item) {
-            return `<li class="item ${item.quality.toLowerCase()}"><img src="${item.icon}" /><b>${item.name}</b></li>`
+            return `<li class="item" id="item-${item.id}">
+                <img src="${item.icon}" />
+                    <a href="https://classic.wowhead.com/item=${item.wowhead_id}" class="${item.quality.toLowerCase()}"><b>${item.name}</b></a>
+            </li>`
         }
 
         async function listItems(orderBy = "quality") {
