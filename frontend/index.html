@@ -64,7 +64,7 @@
                     Item Database</span>
                 <span class="navbar-nav">Order by:<select id="order-by" style="width: 200px; display: inline-block">
                         <option>Alphabetical</option>
-                        <option>Quality</option>
+                        <option selected>Quality</option>
                     </select>
                 </span>
             </div>
@@ -80,7 +80,7 @@
             return `<li class="item ${item.quality.toLowerCase()}"><img src="${item.icon}" /><b>${item.name}</b></li>`
         }
 
-        async function listItems(orderBy = "alphabetical") {
+        async function listItems(orderBy = "quality") {
             const items = await fetch(`/items?order_by=${orderBy}`).then(r => r.json());
             if (items.length > 0) {
                 let html = "<ul>"
